@@ -10,8 +10,4 @@
       <ProjectReference Include="..\StudyCoreAPI.Application\StudyCoreAPI.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Repository\" />
-    </ItemGroup>
-
 </Project>
