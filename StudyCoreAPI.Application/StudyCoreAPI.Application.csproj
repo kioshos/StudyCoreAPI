@@ -1,13 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\StudyCoreAPI.Domain\StudyCoreAPI.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.20" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="7.3.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="7.3.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.3.0" />
     </ItemGroup>
 
 </Project>
