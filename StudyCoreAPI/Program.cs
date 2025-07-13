@@ -19,10 +19,8 @@ builder.Services.AddDbContext<StudyCoreAPIContext>(options => options.UseSqlite(
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<StudyCoreAPIContext>() 
-    .AddDefaultTokenProviders();
-
+builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+    .AddEntityFrameworkStores<StudyCoreAPIContext>();
 
 var app = builder.Build();
 
@@ -32,9 +30,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.MapIdentityApi<IdentityUser>();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
