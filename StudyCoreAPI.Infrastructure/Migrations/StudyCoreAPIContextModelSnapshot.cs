@@ -209,6 +209,58 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("StudyCoreAPI.Account", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("StudyCoreAPI.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -216,6 +268,7 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AccountId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Author")
@@ -227,21 +280,17 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
                     b.Property<string>("Language")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PageCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ReadPages")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(0);
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("WorkspaceId")
                         .HasColumnType("TEXT");
@@ -262,6 +311,7 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AccountId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("CompletionDate")
@@ -272,9 +322,7 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsCompleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasDefaultValue(false);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Link")
                         .HasColumnType("TEXT");
@@ -287,7 +335,6 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("WorkspaceId")
@@ -299,7 +346,7 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
                     b.HasIndex("WorkspaceId");
 
-                    b.ToTable("Problem", (string)null);
+                    b.ToTable("Problems", (string)null);
                 });
 
             modelBuilder.Entity("StudyCoreAPI.Word", b =>
@@ -309,13 +356,10 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AccountId")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValue(new DateTime(2025, 7, 14, 22, 24, 33, 215, DateTimeKind.Local).AddTicks(3976));
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Level")
                         .IsRequired()
@@ -327,7 +371,6 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Note")
@@ -353,7 +396,7 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
                     b.HasIndex("WorkspaceId");
 
-                    b.ToTable("Word", (string)null);
+                    b.ToTable("Words", (string)null);
                 });
 
             modelBuilder.Entity("StudyCoreAPI.Workspace", b =>
@@ -368,14 +411,31 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(64)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AccountId");
 
-                    b.ToTable("Workspaces", (string)null);
+                    b.ToTable("Workspaces");
+                });
+
+            modelBuilder.Entity("StudyCoreAPI.WorkspaceAccess", b =>
+                {
+                    b.Property<string>("AccountId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("WorkspaceId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AccountId", "WorkspaceId");
+
+                    b.HasIndex("WorkspaceId");
+
+                    b.ToTable("WorkspaceAccesses");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -433,10 +493,12 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("StudyCoreAPI.Workspace", "Workspace")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("WorkspaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -450,10 +512,12 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("StudyCoreAPI.Workspace", "Workspace")
-                        .WithMany()
+                        .WithMany("Problems")
                         .HasForeignKey("WorkspaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -465,14 +529,43 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("StudyCoreAPI.Word", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Account")
+                    b.HasOne("StudyCoreAPI.Account", "Owner")
                         .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StudyCoreAPI.Workspace", "Workspace")
+                        .WithMany("Words")
+                        .HasForeignKey("WorkspaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Workspace");
+                });
+
+            modelBuilder.Entity("StudyCoreAPI.Workspace", b =>
+                {
+                    b.HasOne("StudyCoreAPI.Account", "Owner")
+                        .WithMany("OwnedWorkspaces")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("StudyCoreAPI.WorkspaceAccess", b =>
+                {
+                    b.HasOne("StudyCoreAPI.Account", "Account")
+                        .WithMany("AccessibleWorkspaces")
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("StudyCoreAPI.Workspace", "Workspace")
-                        .WithMany()
+                        .WithMany("AccessList")
                         .HasForeignKey("WorkspaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -482,15 +575,22 @@ namespace StudyCoreAPI.Infrastructure.Migrations
                     b.Navigation("Workspace");
                 });
 
+            modelBuilder.Entity("StudyCoreAPI.Account", b =>
+                {
+                    b.Navigation("AccessibleWorkspaces");
+
+                    b.Navigation("OwnedWorkspaces");
+                });
+
             modelBuilder.Entity("StudyCoreAPI.Workspace", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("AccessList");
 
-                    b.Navigation("Account");
+                    b.Navigation("Books");
+
+                    b.Navigation("Problems");
+
+                    b.Navigation("Words");
                 });
 #pragma warning restore 612, 618
         }

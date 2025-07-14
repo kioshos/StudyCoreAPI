@@ -17,7 +17,10 @@ public class Book
     {
         get
         {
-            return ReadPages / PageCount;
+            if (PageCount == 0) 
+                return 0;
+            
+            return (float)ReadPages / PageCount;
         }
     }
     public IdentityUser Account {get; set;}

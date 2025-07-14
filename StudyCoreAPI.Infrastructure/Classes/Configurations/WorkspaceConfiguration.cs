@@ -8,8 +8,12 @@ public class WorkspaceConfiguration : IEntityTypeConfiguration<Workspace>
     public void Configure(EntityTypeBuilder<Workspace> builder)
     {
         builder.HasKey(w => w.Id);
-        builder.HasOne(w => w.Account);
-        builder.Property(w => w.Name).IsRequired().HasMaxLength(64);
-        builder.ToTable("Workspaces");
+
+        builder.Property(w => w.Name).IsRequired();
+
+        builder.HasOne(w => w.Owner)
+            .WithMany(u => u.OwnedWorkspaces)
+            .HasForeignKey(w => w.AccountId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

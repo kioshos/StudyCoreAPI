@@ -4,8 +4,12 @@ namespace StudyCoreAPI;
 
 public class WorkspaceAccess
 {
-    public IdentityUser Account { get; set; }
+    public string AccountId { get; set; }
+    public Account Account { get; set; }
+
+    public Guid WorkspaceId { get; set; }
     public Workspace Workspace { get; set; }
+    
     public DateTime SentAt { get; set; }
 
     public WorkspaceAccess()
