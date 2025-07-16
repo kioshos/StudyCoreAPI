@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using StudyCoreAPI.Infrastructure.Classes;
 using Microsoft.EntityFrameworkCore;
+using StudyCoreAPI;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<StudyCoreAPIContext>(options => options.UseSqlite(
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<Account>()
     .AddEntityFrameworkStores<StudyCoreAPIContext>();
 
 var app = builder.Build();
@@ -30,7 +31,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<Account>();
 
 app.UseHttpsRedirection();
 
