@@ -13,7 +13,7 @@ public class Book
     public int PageCount {get; set;}
     public DateTime? CompleteDate {get; set;}
 
-    public float CompletePercentaghe
+    public float CompletePercentage
     {
         get
         {

@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Identity;
 using StudyCoreAPI.Infrastructure.Classes;
 using Microsoft.EntityFrameworkCore;
 using StudyCoreAPI;
-
+using StudyCoreAPI.Application.Interfaces;
+using StudyCoreAPI.Infrastructure.Classes.Repository;
+using StudyCoreAPI.Infrastructure.Classes.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,14 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddIdentityApiEndpoints<Account>()
     .AddEntityFrameworkStores<StudyCoreAPIContext>();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IRepository<Account, string>, AccountRepository>();
+builder.Services.AddScoped<IRepository<Workspace, Guid>, WorkspaceRepository>();
+builder.Services.AddScoped<IRepository<WorkspaceAccess, Guid>, WorkspaceAccessRepository>();
+builder.Services.AddScoped<IRepository<Word, int>, WordRepository>();
+builder.Services.AddScoped<IRepository<Book, int>, BookRepository>();
+builder.Services.AddScoped<IRepository<Problem, int>, ProblemRepository>();
 
 var app = builder.Build();
 

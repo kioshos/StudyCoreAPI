@@ -1,8 +1,8 @@
 ﻿namespace StudyCoreAPI.Application.Interfaces;
 
-public interface  IUnitOfWork : IDisposable
+public interface  IUnitOfWork
 {
-    IRepository<Account, Guid> Accounts { get; }
+    IRepository<Account, string> Accounts { get; }
     IRepository<Workspace, Guid> Workspaces { get; }
     IRepository<WorkspaceAccess, Guid> WorkspaceAccesses { get; }
     IRepository<Word, int> Words { get; }

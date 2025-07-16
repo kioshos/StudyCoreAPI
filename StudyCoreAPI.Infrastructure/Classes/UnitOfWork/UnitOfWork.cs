@@ -3,36 +3,36 @@ using StudyCoreAPI.Application.Interfaces;
 
 namespace StudyCoreAPI.Infrastructure.Classes.UnitOfWork;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(StudyCoreAPIContext context,
+    IRepository<Account, string> accounts,
+    IRepository<Workspace, Guid> workspaces,
+    IRepository<WorkspaceAccess, Guid> workspaceAccesses,
+    IRepository<Word, int> words,
+    IRepository<Book, int> books,
+    IRepository<Problem, int> problems) : IUnitOfWork
 {
-    private readonly DbContext _context;
-    public IRepository<Account, Guid> Accounts { get; }
-    public IRepository<Workspace, Guid> Workspaces { get; }
-    public IRepository<WorkspaceAccess, Guid> WorkspaceAccesses { get; }
-    public IRepository<Word, int> Words { get; }
-    public IRepository<Book, int> Books { get; }
-    public IRepository<Problem, int> Problems { get; }
+    public IRepository<Account, string> Accounts { get; } = accounts;
+    public IRepository<Workspace, Guid> Workspaces { get; } = workspaces;
+    public IRepository<WorkspaceAccess, Guid> WorkspaceAccesses { get; } = workspaceAccesses;
+    public IRepository<Word, int> Words { get; } = words;
+    public IRepository<Book, int> Books { get; } = books;
+    public IRepository<Problem, int> Problems { get; } = problems;
     
-    public UnitOfWork(DbContext context, IRepository<Account, Guid> accounts, 
-        IRepository<Workspace, Guid> workspaces, IRepository<WorkspaceAccess, Guid> workspaceAccesses, 
-        IRepository<Word, int> words, IRepository<Book, int> books, IRepository<Problem, int> problems)
-    {
-        _context = context;
-        Accounts = accounts;
-        Workspaces = workspaces;
-        WorkspaceAccesses = workspaceAccesses;
-        Words = words;
-        Books = books;
-        Problems = problems;
-    }
-
-    public void Dispose()
-    {
-        _context.Dispose();
-    }
-
     public async Task SaveChangesAsync()
     {
-       await _context.SaveChangesAsync();
+        using (var transaction = await context.Database.BeginTransactionAsync())
+        {
+            try
+            {
+                await context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
     }
 }
