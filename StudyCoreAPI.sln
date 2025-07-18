@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyCoreAPI.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyCoreAPI.Infrastructure", "StudyCoreAPI.Infrastructure\StudyCoreAPI.Infrastructure.csproj", "{84EE4042-A852-40BF-9B1F-555CDE958C65}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyCoreAPI.Domain.Tests", "StudyCoreAPI.Domain.Tests\StudyCoreAPI.Domain.Tests.csproj", "{804AAD5A-3C19-4D27-A086-4C6331679A32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,11 @@ Global
 		{84EE4042-A852-40BF-9B1F-555CDE958C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84EE4042-A852-40BF-9B1F-555CDE958C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84EE4042-A852-40BF-9B1F-555CDE958C65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{804AAD5A-3C19-4D27-A086-4C6331679A32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{804AAD5A-3C19-4D27-A086-4C6331679A32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{804AAD5A-3C19-4D27-A086-4C6331679A32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{804AAD5A-3C19-4D27-A086-4C6331679A32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

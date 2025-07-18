@@ -12,7 +12,7 @@ public class Problem
     public string? Solution { get; set; }
     public bool IsCompleted { get; set; }
     public string? Note { get; set; }
-    public IdentityUser Account{ get; set; }
+    public Account Account{ get; set; }
     public Workspace Workspace { get; set; }
 
     public Problem()
