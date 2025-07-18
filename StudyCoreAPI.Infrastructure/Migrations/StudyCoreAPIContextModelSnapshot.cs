@@ -510,7 +510,7 @@ namespace StudyCoreAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("StudyCoreAPI.Problem", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Account")
+                    b.HasOne("StudyCoreAPI.Account", "Account")
                         .WithMany()
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -2,6 +2,7 @@ using StudyCoreAPI.Infrastructure.Classes;
 using Microsoft.EntityFrameworkCore;
 using StudyCoreAPI;
 using StudyCoreAPI.Application.Interfaces;
+using StudyCoreAPI.Application.Services;
 using StudyCoreAPI.Infrastructure.Classes.Repository;
 using StudyCoreAPI.Infrastructure.Classes.UnitOfWork;
 
@@ -31,6 +32,8 @@ builder.Services.AddScoped<IRepository<WorkspaceAccess, Guid>, WorkspaceAccessRe
 builder.Services.AddScoped<IRepository<Word, int>, WordRepository>();
 builder.Services.AddScoped<IRepository<Book, int>, BookRepository>();
 builder.Services.AddScoped<IRepository<Problem, int>, ProblemRepository>();
+
+builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
 
 var app = builder.Build();
 

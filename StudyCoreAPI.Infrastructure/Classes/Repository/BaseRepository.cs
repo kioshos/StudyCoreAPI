@@ -39,7 +39,7 @@ public class BaseRepository<TEntity, TKey> : IRepository<TEntity, TKey>
         context.Set<TEntity>().Remove(entityToDelete);
     }
     
-    public async Task<TEntity> GetByIdAsync(TKey id)
+    public virtual async Task<TEntity> GetByIdAsync(TKey id)
     {
         return await context.Set<TEntity>().FindAsync(id);
     }
