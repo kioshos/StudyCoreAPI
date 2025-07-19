@@ -17,4 +17,9 @@ public class WorkspaceRepository : BaseRepository<Workspace, Guid>
         
         workspace.Name = entity.Name;
     }
+
+    public override async Task<Workspace> GetByIdAsync(Guid id)
+    {
+        return await context.Workspaces.FirstOrDefaultAsync(w => w.Id == id);
+    }
 }

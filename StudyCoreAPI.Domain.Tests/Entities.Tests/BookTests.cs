@@ -10,7 +10,6 @@ public class BookTests
         yield return new object[] {5 ,10, 0.5f};
     }
     
-    
     [Theory]
     [MemberData(nameof(TestData))]
     public void CompletePercentage_ShouldBeCorrect(int pageRead, 
