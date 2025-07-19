@@ -107,7 +107,7 @@ public class WorkspaceServiceTests
     [Fact]
     public async Task CreateWorkspaceAsync_ShouldAddWorkspaceAndSaveChanges()
     {
-        var workspaceToCreate = new WorkspaceDTO() { Name = "New Workspace", AccountId = "account_id_1" };
+        var workspaceToCreate = new WorkspaceDto() { Name = "New Workspace", AccountId = "account_id_1" };
 
         _mockWorkspaceRepository.Setup(r => r.AddAsync(It.IsAny<Workspace>()))
             .Returns(Task.CompletedTask);

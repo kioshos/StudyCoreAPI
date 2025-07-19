@@ -18,6 +18,6 @@ public class Word
 
     public Word()
     {
-        
+        CreatedOn = DateTime.Now;
     }
 }
