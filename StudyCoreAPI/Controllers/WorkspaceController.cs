@@ -44,7 +44,7 @@ public class WorkspaceController : ControllerBase
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        var workspaceRequest = new WorkspaceDto()
+        var workspaceRequest = new WorkspaceDTO()
         {
             Name = workspaceName,
             AccountId = userId
