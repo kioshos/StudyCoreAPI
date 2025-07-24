@@ -1,6 +1,6 @@
 ﻿namespace StudyCoreAPI.Application.DTOs;
 
-public record WordDto()
+public record WordDto
 {
     public Guid WorkspaceId { get; init; }
     
