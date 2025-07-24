@@ -6,6 +6,6 @@ public interface IWorkspaceService
 {
     Task<IReadOnlyCollection<Workspace>> GetAllAsync();
     Task<Workspace> GetByIdAsync(Guid workspaceId);
-    Task CreateWorkspaceAsync(WorkspaceDto workspace);
+    Task CreateWorkspaceAsync(WorkspaceDTO workspace);
     Task DeleteWorkspaceAsync(Guid workspaceId);
 }
