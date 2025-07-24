@@ -30,7 +30,7 @@ public class WorkspaceService : IWorkspaceService
        return workspace;
     }
 
-    public async Task CreateWorkspaceAsync(WorkspaceDTO workspaceDto)
+    public async Task CreateWorkspaceAsync(WorkspaceDto workspaceDto)
     {
         var workspace = new Workspace()
         {

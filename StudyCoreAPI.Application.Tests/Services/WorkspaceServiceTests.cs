@@ -107,9 +107,10 @@ public class WorkspaceServiceTests
     [Fact]
     public async Task CreateWorkspaceAsync_ShouldAddWorkspaceAndSaveChanges()
     {
-        var workspaceToCreate = new WorkspaceDTO() { Name = "New Workspace", AccountId = "account_id_1" };
+        var workspaceToCreate = new WorkspaceDto() { Name = "New Workspace", AccountId = "account_id_1" };
 
-        _mockWorkspaceRepository.Setup(r => r.AddAsync(It.IsAny<Workspace>()))
+        _mockWorkspaceRepository.Setup(r =>
+                r.AddAsync(It.IsAny<Workspace>()))
             .Returns(Task.CompletedTask);
 
         _mockUnitOfWork.Setup(u => u.SaveChangesAsync())
@@ -117,7 +118,9 @@ public class WorkspaceServiceTests
 
         await _workspaceService.CreateWorkspaceAsync(workspaceToCreate);
 
-        _mockWorkspaceRepository.Verify(r => r.AddAsync(It.Is<Workspace>(w => w.Name == "New Workspace" && w.AccountId == "account_id_1")), Times.Once);
+        _mockWorkspaceRepository.Verify(r => 
+            r.AddAsync(It.Is<Workspace>(w =>
+                w.Name == "New Workspace" && w.AccountId == "account_id_1")), Times.Once);
         _mockUnitOfWork.Verify(u => u.SaveChangesAsync(), Times.Once);
     }
     
