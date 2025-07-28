@@ -4,13 +4,13 @@ namespace StudyCoreAPI.Application.Interfaces;
 
 public interface IWordService
 {
-    Task<IReadOnlyCollection<Word>> GetAllAsync();
+    Task<IReadOnlyCollection<Word>> GetAllByWorkspaceId(Guid workspaceId);
     
     Task<Word> GetByIdAsync(int wordId);
     
-    Task AddAsync(WordDto newWord);
+    Task AddAsync(Guid workspaceId, WordCreateDto newWordCreate);
     
-    Task UpdateAsync(WordDto updatedWord);
+    Task UpdateAsync(int id, WordUpdateDto updatedWord);
     
-    Task DeleteAsync(int wordId);
+    Task<bool> DeleteAsync(int wordId);
 }

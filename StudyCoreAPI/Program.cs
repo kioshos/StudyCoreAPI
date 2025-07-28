@@ -32,8 +32,11 @@ builder.Services.AddScoped<IRepository<WorkspaceAccess, Guid>, WorkspaceAccessRe
 builder.Services.AddScoped<IRepository<Word, int>, WordRepository>();
 builder.Services.AddScoped<IRepository<Book, int>, BookRepository>();
 builder.Services.AddScoped<IRepository<Problem, int>, ProblemRepository>();
+builder.Services.AddScoped<IWordRepository, WordRepository>();
+
 
 builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
+builder.Services.AddScoped<IWordService, WordService>();
 
 var app = builder.Build();
 

@@ -1,10 +1,8 @@
 ﻿namespace StudyCoreAPI.Application.DTOs;
 
-public record WordDto
+public record WordCreateDto
 {
-    public Guid WorkspaceId { get; init; }
-    
-    public string OwnerId { get; init; }
+    public string? OwnerId { get; init; }
     
     public string Name { get; init; }
     
@@ -16,7 +14,7 @@ public record WordDto
     
     public string? Translation { get; init; }
     
-    public string Level { get; init; }
+    public string? Level { get; init; }
     
-    public string Type { get; init; }
+    public string? Type { get; init; }
 }

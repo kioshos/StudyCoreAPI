@@ -7,7 +7,7 @@ using StudyCoreAPI.Application.Interfaces;
 namespace StudyCoreAPI.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("workspaces")]
 [Authorize]
 public class WorkspaceController : ControllerBase
 {

@@ -3,7 +3,7 @@ using StudyCoreAPI.Application.Interfaces;
 
 namespace StudyCoreAPI.Infrastructure.Classes.Repository;
 
-public class WordRepository : BaseRepository<Word, int>
+public class WordRepository : BaseRepository<Word, int>, IWordRepository
 {
     public WordRepository(StudyCoreAPIContext context)
         :base(context)
@@ -21,5 +21,13 @@ public class WordRepository : BaseRepository<Word, int>
         word.Translation = entity.Translation;
         word.Type = entity.Type;
         word.PartOfSpeech = entity.PartOfSpeech;
+    }
+
+    public async Task<IReadOnlyCollection<Word>> GetAllByWorkspaceIdAsync(Guid workspaceId)
+    {
+        return await context.Set<Word>()
+            .Where(w => w.WorkspaceId == workspaceId)
+            .AsNoTracking()
+            .ToListAsync();
     }
 }

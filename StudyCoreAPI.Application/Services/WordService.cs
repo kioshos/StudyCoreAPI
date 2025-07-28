@@ -12,9 +12,18 @@ public class WordService : IWordService
     {
         _unitOfWork = unitOfWork;
     }
-    public async Task<IReadOnlyCollection<Word>> GetAllAsync()
+
+    public async Task<IReadOnlyCollection<Word>> GetAllByWorkspaceId(Guid workspaceId)
     {
-        return await _unitOfWork.Words.GetAllAsync();
+        var workspace = await _unitOfWork.Workspaces.GetByIdAsync(workspaceId);
+
+        if (workspace == null)
+            throw new KeyNotFoundException($"Workspace with ID {workspaceId} not found.");
+
+        if (_unitOfWork.Words is IWordRepository wordRepository)
+            return await wordRepository.GetAllByWorkspaceIdAsync(workspaceId);
+
+        throw new InvalidOperationException("Words repository does not implement IWordRepository.");
     }
 
     public async Task<Word> GetByIdAsync(int wordId)
@@ -29,11 +38,12 @@ public class WordService : IWordService
         return word;
     }
 
-    public async Task AddAsync(WordDto wordDto)
+    public async Task AddAsync(Guid workspaceId, WordCreateDto wordDto)
     {
         var newWord = new Word()
         {
-            OwnerId = wordDto.OwnerId,
+            WorkspaceId = workspaceId,
+            AccountId = wordDto.OwnerId,
             Name = wordDto.Name,
             Meaning = wordDto.Meaning,
             PartOfSpeech = wordDto.PartOfSpeech,
@@ -47,13 +57,34 @@ public class WordService : IWordService
        await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(WordDto updatedWord)
+    public async Task UpdateAsync(int id, WordUpdateDto updatedWord)
     {
-        throw new NotImplementedException();
+        var word = await _unitOfWork.Words.GetByIdAsync(id);
+    
+        if (word == null)
+        {
+            throw new KeyNotFoundException("Word not found");
+        }
+        
+        word.Name = updatedWord.Name;
+        word.Meaning = updatedWord.Meaning;
+        word.PartOfSpeech = updatedWord.PartOfSpeech;
+        word.Note = updatedWord.Note;
+        
+        await _unitOfWork.Words.UpdateAsync(word);
+        await _unitOfWork.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int wordId)
+    public async Task<bool> DeleteAsync(int wordId)
     {
-        throw new NotImplementedException();
+        var word = await _unitOfWork.Words.GetByIdAsync(wordId);
+        
+        if (word == null)
+            return false;
+
+        await _unitOfWork.Words.DeleteAsync(word.Id);
+        await _unitOfWork.SaveChangesAsync();
+        
+        return true;
     }
 }
